@@ -94,8 +94,8 @@ cat openapi.json
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
-cd <repository-directory>
+git clone https://github.com/Guffycoder/flock-urja-meter-ops-api.git
+cd flock-urja-meter-ops-api
 ```
 
 ### 2. Prerequisites
@@ -108,8 +108,12 @@ python -m venv venv
 
 # On Linux / macOS:
 source venv/bin/activate
+
 # On Windows (PowerShell):
 .\venv\Scripts\Activate.ps1
+
+# On Windows (Command Prompt):
+venv\Scripts\activate.bat
 ```
 
 ### 4. Install Dependencies
