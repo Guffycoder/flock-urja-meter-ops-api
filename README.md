@@ -2,18 +2,26 @@
 
 A clean, resilient, and well-documented RESTful API service built in front of the legacy **Urja Meter Ops** utility portal (`https://urja-ops.flockenergy.tech`). It exposes smart-meter metadata, network hierarchy topology, interval consumption telemetry, and spatial proximity queries for downstream engineers and product teams.
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Render-46E3B7.svg?logo=render&logoColor=white)](https://flock-urja-meter-ops-api.onrender.com)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11+-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![Tests](https://img.shields.io/badge/Offline%20Tests-44%20Passing-brightgreen.svg)](#running-tests)
 [![OpenAPI 3.1](https://img.shields.io/badge/OpenAPI-3.1-blue.svg)](openapi.json)
 
+> 🚀 **Live Cloud Deployment:** The API service and web client are deployed live on Render:  
+> * **Interactive Operations Dashboard:** [https://flock-urja-meter-ops-api.onrender.com/](https://flock-urja-meter-ops-api.onrender.com/)  
+> * **Interactive Swagger API Docs:** [https://flock-urja-meter-ops-api.onrender.com/docs](https://flock-urja-meter-ops-api.onrender.com/docs)  
+> * **Live Service Health Status:** [https://flock-urja-meter-ops-api.onrender.com/api/v1/health](https://flock-urja-meter-ops-api.onrender.com/api/v1/health)  
+
 ---
 
 ## Quick Navigation
 
-* **Protocol Reverse-Engineering Report:** [`PROTOCOL.md`](PROTOCOL.md)
-* **OpenAPI 3.1 Specification:** [`openapi.json`](openapi.json)
-* **Engineering Reflections & Self-Review:** [`REFLECTION.md`](REFLECTION.md)
+* 🌐 **Live Web Dashboard:** [https://flock-urja-meter-ops-api.onrender.com/](https://flock-urja-meter-ops-api.onrender.com/)
+* 📖 **Interactive Swagger UI:** [https://flock-urja-meter-ops-api.onrender.com/docs](https://flock-urja-meter-ops-api.onrender.com/docs)
+* 🔬 **Protocol Reverse-Engineering Report:** [`PROTOCOL.md`](PROTOCOL.md)
+* 📑 **OpenAPI 3.1 Specification:** [`openapi.json`](openapi.json)
+* 💭 **Engineering Reflections & Self-Review:** [`REFLECTION.md`](REFLECTION.md)
 
 ---
 
@@ -31,6 +39,8 @@ Urja API Service (FastAPI)
         │
         ├── In-Memory Catalog Cache  (multi-attribute filter, Haversine spatial query, stale cache preservation)
         │
+        ├── Web Dashboard  (single-page interactive client served at /)
+        │
         └── UrjaPortalClient  (CSRF-compliant auth, bounded 401 re-auth & lazy renewal, HMAC bulk export)
                 │
                 └── Legacy Urja Portal  (SvelteKit + Better-Auth)
@@ -46,6 +56,7 @@ Urja API Service (FastAPI)
 │   ├── client.py            # Upstream HTTP client, auth & HMAC signer
 │   ├── cache.py             # In-memory index, spatial search & analytics
 │   ├── models.py            # Pydantic schemas & response models
+│   ├── static/              # Interactive single-page dashboard (/index.html, /app.js, /style.css)
 │   └── routers/
 │       ├── meters.py        # /api/v1/meters (search, details, consumption, nearby)
 │       ├── transformers.py  # /api/v1/transformers (DT inventory & meter mappings)
@@ -71,13 +82,20 @@ Urja API Service (FastAPI)
 
 ## Reviewer Quick Start (Evaluation in 60 Seconds)
 
-To evaluate this assignment without needing upstream portal credentials:
+### Option A: Evaluate Live (No Local Setup Required)
+You can directly test the live cloud service running in production:
+* **Interactive Operations Center:** [https://flock-urja-meter-ops-api.onrender.com/](https://flock-urja-meter-ops-api.onrender.com/)
+* **Live Swagger API Explorer:** [https://flock-urja-meter-ops-api.onrender.com/docs](https://flock-urja-meter-ops-api.onrender.com/docs)
+* **Check Live Health & Catalog (403 meters):** `curl https://flock-urja-meter-ops-api.onrender.com/api/v1/health`
+
+### Option B: Evaluate Locally (100% Offline)
+To evaluate locally without needing upstream portal credentials:
 
 ```bash
 # 1. Install dependencies
 pip install -r requirements.txt
 
-# 2. Run the 44-test hermetic test suite (runs 100% offline in ~15s)
+# 2. Run the 44-test hermetic test suite (runs 100% offline without credentials)
 python -m pytest -v -m "not integration"
 
 # 3. View the generated OpenAPI 3.1 schema
